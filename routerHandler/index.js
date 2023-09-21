@@ -1,4 +1,4 @@
-const {getBalance,getCount,sendEth} = require("../web3Server/server.js")
+const {getBalance,getCount,sendEth,getGasPrice,getBlock} = require("../web3Server/server.js")
 
 exports.getBalance = async (req,res)=>{
     const address = req.body.address
@@ -39,4 +39,36 @@ exports.sendEth = async (req,res)=>{
         "hash":result
     }
    })
+}
+
+exports.getGas = async (req,res)=>{
+    const price = await getGasPrice()
+    if(!price){
+        return res.json({
+            code:"400",
+            msg:"请求失败"
+        })
+    }
+    return res.json({
+        code:"200",
+        msg:"请求成功",
+        data:`${price}ETH`
+
+    })
+}
+
+//需要再router前面定义JSON序列化方法，将BigInt转换为字符串
+exports.getBlock = async (req,res)=>{
+    const result =await getBlock()
+    if(!result){
+        return res.json({
+            code:400,
+            msg:"请求失败"
+        })
+    }
+    return res.json({
+        code:200,
+        msg:"请求成功",
+        data:result
+    })
 }

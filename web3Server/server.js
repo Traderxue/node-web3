@@ -2,18 +2,20 @@ const {Web3, errors} = require("web3")
 
 const web3 = new Web3("http://127.0.0.1:8545")
 
+//获取余额
 const getBalance = async (address)=>{
     const res = await web3.eth.getBalance(address)
     const balance = parseFloat(web3.utils.fromWei(res,'ether')).toFixed(3)
     return balance
 }
 
+//获取一个新钱包
 const getCount = async ()=>{
     const res = await web3.eth.accounts.create()
     return res
 }
 
-
+//转账
 const sendEth = async(senderAddress,receiverAddress,privateKey,mount)=>{
 
 const amountToSend = web3.utils.toWei(mount, 'ether'); // 替换为你要发送的以太数量
@@ -49,9 +51,23 @@ const result = await web3.eth.sendSignedTransaction(signedTransaction.rawTransac
 return result.transactionHash
 }
 
+//获取gas
+const getGasPrice = async()=>{
+  const res = await web3.eth.getGasPrice()
+  const price = web3.utils.fromWei(res,'ether')
+  return price
+}
+
+//获取当前区块信息
+const getBlock = async ()=>{
+  const res = await web3.eth.getBlock()
+  return res
+}
 
 module.exports = {
     getBalance,
     getCount,
-    sendEth
+    sendEth,
+    getGasPrice,
+    getBlock
 }
