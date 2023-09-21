@@ -26,9 +26,17 @@ exports.sendEth = async (req,res)=>{
     const privateKey = req.body.privateKey
     const count = req.body.count
     const result = await sendEth(senderAddress,receiverAddress,privateKey,count)
+   if(result ==''){
     return res.json({
-        code:200,
-        msg:"请求成功",
-        data:result
+        code:400,
+        msg:"请求失败"
     })
+   }
+   return res.json({
+    code:200,
+    msg:"请求成功",
+    data:{
+        "hash":result
+    }
+   })
 }

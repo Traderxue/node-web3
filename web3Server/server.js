@@ -1,4 +1,4 @@
-const {Web3} = require("web3")
+const {Web3, errors} = require("web3")
 
 const web3 = new Web3("http://127.0.0.1:8545")
 
@@ -35,19 +35,18 @@ const transactionObject = {
 // 签名交易
 const signedTransaction = await web3.eth.accounts.signTransaction(transactionObject, privateKey);
 
-const res = ""
 // 发送交易
-web3.eth.sendSignedTransaction(signedTransaction.rawTransaction)
+const result = await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction)
   .on('transactionHash', (hash) => {
-    console.log('交易哈希:', hash);
+
   })
   .on('receipt', (receipt) => {
-    console.log('交易收据:', receipt);
-    res=receipt
   })
   .on('error', (error) => {
     console.error('交易错误:', error);
   });
+
+return result.transactionHash
 }
 
 

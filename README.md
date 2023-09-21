@@ -4,12 +4,14 @@ nodejs,web3.js开发以太坊
 
 ## 依赖
 
-web3   ganache  cors   express
-
+web3   ganache  cors   express <br>
 ## 安装
 
 ```sh
-npm install
+安装ganache 
+npm install -g ganache  
+启动 ganache 
+启动后不要关闭cmd
 ```
 
 ### 运行
